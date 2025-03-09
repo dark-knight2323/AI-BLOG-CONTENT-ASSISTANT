@@ -7,7 +7,7 @@ langchain
 streamlit
 secret_api_keys (custom module for storing Hugging Face API key)
 Setup
-Create a Hugging Face API token: Obtain a token from your Hugging Face account settings. Create a secret_api_keys.py file: Store your Hugging Face API token in this file as a variable named huggingface_api_key.
+Create a Hugging Face API token: Obtain a token from your Hugging Face account settings. Enter your key in the file and the variable I have declared, just paste your hugging face token there.
 
 Install dependencies:
 pip install huggingface_hub langchain streamlit
