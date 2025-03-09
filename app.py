@@ -52,6 +52,57 @@ title_chain = prompt_template_for_title | llm # Create a chain for title generat
 st.title("AI Blog Content Assistant...🤖")
 st.header("Create High-Quality Blog Content Without Breaking the Bank")
 
+# Add a select box for theme selection
+theme = st.selectbox("Select Theme", ["Light", "Dark"])
+
+# Apply the selected theme using custom CSS
+if theme == "Dark":
+    st.markdown(
+        """
+        <style>
+        body {
+            background-color: #1e1e1e;
+            color: white;
+        }
+        .stButton>button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .stTextInput>div>div>input {
+            background-color: #333;
+            color: white;
+        }
+        .stSlider>div>div>div>div {
+            background-color: #4CAF50;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+else:
+    st.markdown(
+        """
+        <style>
+        body {
+            background-color: white;
+            color: black;
+        }
+        .stButton>button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .stTextInput>div>div>input {
+            background-color: white;
+            color: black;
+        }
+        .stSlider>div>div>div>div {
+            background-color: #4CAF50;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
 st.subheader('Title Generation') # Display a subheader for the title generation section
 topic_expander = st.expander("Input the topic") # Create an expander for topic input
 
@@ -81,11 +132,10 @@ with title_expander: # Create a content block within the title expander
         st.session_state['keywords'] = []  # Initialize empty list on first run
     keyword_input = st.text_input("Enter a keyword:") # Input field for adding keywords
     keyword_button = st.button("Add Keyword") # Button to add keyword to the list
-    if keyword_button: # Handle button click for adding keyword
-        st.session_state['keywords'].append(keyword_input) # Add the keyword to the session state list
-        st.session_state['keyword_input'] = "" # Clear the keyword input field after adding
-        for keyword in st.session_state['keywords']:  # Display the current list of keywords
-            # Inline styling for displaying keywords
+    if keyword_button:
+        st.session_state['keywords'].append(keyword_input)
+        st.session_state['keyword_input'] = ""
+        for keyword in st.session_state['keywords']: 
             st.write(f"<div style='display: inline-block; background-color: lightgray; padding: 5px; margin: 5px;'>{keyword}</div>", unsafe_allow_html=True)
 
     # Button to submit the information for content generation
@@ -100,5 +150,3 @@ if submit_title: # Handle button click for submitting information
 
     st.subheader(title_of_the_blog) # Display the blog title as a subheader
     st.write(title_chain.invoke({'title': title_of_the_blog, 'keywords': formatted_keywords, 'blog_length':num_of_words})) # Generate and display the blog content using the title chain
-
-
